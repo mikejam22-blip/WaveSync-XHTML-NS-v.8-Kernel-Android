@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2018 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<permissions>
+    <library
+        name="javax.obex"
+        file="/system/framework/javax.obex.jar"
+    />
+</permissions>
+<!-- <displayConfiguration>
+    <densityMapping>
+         <density>
+            <height>480</height>
+            <width>720</width>
+            <density>120</density>
+         </density>
+         <density>
+            <height>720</height>
+            <width>1280</width>
+            <density>213</density>
+         </density>
+         <density>
+            <height>1080</height>
+            <width>1920</width>
+            <density>320</density>
+         </density>
+         <density>
+            <height>2160</height>
+            <width>3840</width>
+            <density>640</density>
+         </density>
+    </densityMapping>
+</displayConfiguration> -->
+<head>        
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">   
+    <title>Wave Analyzer Ultra - Audio Visual Experience</title>
+    <link rel="icon" type="image/ico" href="icon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Anngel'AI">
+    <link rel="apple-touch-icon" href="icono.png">   
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#120a1f">
+    <meta name="description" content="Interfaces profesionales y arquitectura de alto rendimiento.">
+    <meta name="author" content="Anngel'AI Studio">    
+    <meta property="og:title" content="Anngel'AI Studio inc.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="loader.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+<script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script type="py" src="codeshell.py" config="mul_mat_vec_iq3_xxs.json"></script>
+    <script type="py" src="./loras/sd_xl_offset_example-lora_1.0.safetensors.py" config="mul_mat_vec_iq1_s.comp.json"></script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIpZGFdKKY5UTKYoCRQuS_cAJBvanDGK4",
+    authDomain: "studio-5647002431-b24e5.firebaseapp.com",
+    projectId: "studio-5647002431-b24e5",
+    storageBucket: "studio-5647002431-b24e5.firebasestorage.app",
+    messagingSenderId: "321277800022",
+    appId: "1:321277800022:web:ea2e1901f6d50511cc55f7",
+    measurementId: "G-C1ZY3PKBCY"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script><script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-check-compat.js"></script>
+<script async src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.11.0/firebase-functions-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-installations-compat.js"></script>
+<script async src="https://www.gstatic.com/firebasejs/12.11.0/firebase-storage-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.11.0/firebase-database-compat.js"></script>
+<script type="py">import os
+import google.generativeai as genai
+
+genai.configure(api_key="AIzaSyDIpZGFdKKY5UTKYoCRQuS_cAJBvanDGK4")
+
+def procesar_archivo(ruta_archivo, instrucciones):
+    modelo = genai.GenerativeModel("AIzaSyDIpZGFdKKY5UTKYoCRQuS_cAJBvanDGK4")
+    
+    with open(ruta_archivo, "r") as f:
+        contenido = f.read()
+    
+    prompt = f"""
+    Actúa como un desarrollador senior. Tu objetivo es editar el código proporcionado siguiendo estrictamente estas instrucciones: {instrucciones}.
+    
+    Código fuente:
+    {contenido}
+    
+    Devuelve ÚNICAMENTE el código modificado completo. No añadas explicaciones, no uses bloques de markdown (```), solo el código.
+    """
+    
+    respuesta = modelo.generate_content(prompt)
+    codigo_limpio = respuesta.text.replace("
+```python", "").replace("```", "").strip()
+    
+    with open(ruta_archivo, "w") as f:
+        f.write(codigo_limpio)
+
+if __name__ == "__main__":
+    archivo = "tu_script.py"
+    tarea = "Agrega una función de manejo de errores para las peticiones API"
+    procesar_archivo(archivo, tarea)
+</script>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@300&display=swap');
+        
+        :root {
+            --accent: #00f2ff;
+            --bg: #050505;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('icono.png') no-repeat center center fixed;
+            background-size: cover; 
+            background-color: var(--bg);
+            color: #ffffff;
+            overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            filter: contrast(1.1) saturate(1.2);
+        }
+
+        .glass-ui {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .neo-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neo-button:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .neo-button:active {
+            transform: scale(0.95);
+        }
+
+        ::-webkit-scrollbar { display: none; }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from { top: -100px; }
+            to { top: 100vh; }
+        }
+        
+        .spin-slow { animation: spin 4s linear infinite; }
+        .spin-reverse { animation: spin 2.5s linear infinite reverse; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+      <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+        </script>
+      <link rel="manifest" href="services.xml">
+       <link rel="manifest" href="manifest.json"> 
+</head>
+<body class="flex flex-col items-center justify-center">
+  <div id="loader" class="fixed inset-0 z-[999] bg-[#000000ee] flex flex-col items-center justify-center transition-all duration-700">
+        <div class="relative flex items-center justify-center mb-8 w-32 h-32">
+            <div class="absolute inset-0 border-t-2 border-orange-500 rounded-full spin-slow"></div>
+            <div class="absolute inset-2 border-r-2 border-pink-500 rounded-full spin-reverse"></div>
+            <div class="absolute inset-4 border-b-2 border-rose-500/30 rounded-full animate-pulse"></div>
+            <span class="text-rose-500 font-black title-font text-2xl animate-pulse">¤Æ◇</span>
+        </div>
+        <p id="loader-status" class="font-mono text-indigo-400 text-[10px] tracking-[0.4em] uppercase animate-pulse">Initializing Neural Core...</p>
+    </div>
+    <div class="scanline"></div>
+    <div class="socket" id="ctx"></div>
+    <canvas id="visualizer"></canvas>
+    <div class="fixed top-8 left-8 pointer-events-none select-none">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-12 bg-rose-900 animate-pulse shadow-[0_0_18px_#ff0088]"></div>
+            <div>
+                <h1 class="text-2x1 font-bold tracking-tighter uppercase leading-none">Wave AI synth<span class="text-orange-400"> ¤ ReQuiem ¤</span></h1>
+                <p id="modeIndicator" class="text-[10px] font-mono opacity-50 tracking-[0.3em] mt-1">[SDXL<span class="text-rose-400 animate-pulse">{in>}</span>Lora<span class="text-cyan-400 animate-pulse">{out}</span>GPU]</p>
+            </div>
+        </div>
+        <div class="mt-8 flex gap-4 font-mono text-[10px] opacity-40">
+            <div>DBL: <span id="valDecibel">-∞</span></div>
+            <div>FRQ: <span id="valFreq">0000Hz</span></div>
+            <div>FPS: <span id="valFps">60</span></div>
+            <div id="recStatus" class="text-red-400 hidden animate-pulse font-bold">● RECORDING</div>
+        </div>
+    </div>
+    <div class="fixed bottom-10 w-full px-6 flex justify-center">
+        <div class="glass-ui p-2 rounded-2xl flex items-center gap-2 max-w-3xl w-full">          
+            <label class="neo-button cursor-pointer bg-white text-black p-4 rounded-xl hover:bg-cyan-400 transition-colors">
+                <input type="file" id="audioUpload" accept="audio/*" class="hidden" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </label>
+            <button id="playBtn" class="neo-button bg-white/5 hover:bg-white/10 p-4 rounded-xl hidden">
+                <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg id="pauseIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <div class="flex-1 px-4 min-w-0">
+                <div class="flex justify-between items-end mb-1">
+                    <p id="trackName" class="text-[11px] font-bold truncate opacity-80 tracking-widest uppercase">UPLOAD AUDIO STREAM</p>
+                    <p id="timeInfo" class="text-[10px] font-mono opacity-40">00:00</p>
+                </div>
+                <div class="relative w-full h-[3px] bg-white/10 rounded-full overflow-hidden cursor-pointer group" id="progressContainer">
+                    <div id="progressBar" class="absolute left-0 top-0 h-full bg-cyan-400 shadow-[0_0_8px_#22d3ee] w-0 transition-all duration-100"></div>
+                </div>
+            </div>
+            <div class="flex gap-1">
+                <button id="toggleView" class="neo-button bg-white/5 hover:bg-cyan-500/20 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-tighter border border-white/5">
+                    Mode
+                </button>
+                <button id="toggleParticles" class="neo-button bg-white/5 hover:bg-purple-500/20 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-tighter border border-white/5">
+                    FX
+                </button>
+                 <button id="recordBtn" class="neo-button bg-white/5 hover:bg-red-500/20 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-tighter border border-white/5 text-red-400 hidden">
+                    🔴 REC
+                </button>
+            </div>
+        </div>
+    </div>
+    <audio id="audioPlayer" crossOrigin="anonymous"></audio>
+    <script type="module" src="main.js" id="audioPlayer" crossOrigin="SythID"></script>
+    <script type="py" src="./vae_approx/vaeapp_sd15.py" config="cpu_linux.json"></script>
+    <script config="google-cloud-cli-linux-x86_64.tar.gz">
+        const canvas = document.getElementById('visualizer');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        const audioUpload = document.getElementById('audioUpload');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const trackName = document.getElementById('trackName');
+        const timeInfo = document.getElementById('timeInfo');
+        const toggleView = document.getElementById('toggleView');
+        const toggleParticles = document.getElementById('toggleParticles');
+        const recordBtn = document.getElementById('recordBtn');
+        const recStatus = document.getElementById('recStatus');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const modeIndicator = document.getElementById('modeIndicator');
+
+        const valDecibel = document.getElementById('valDecibel');
+        const valFreq = document.getElementById('valFreq');
+        const valFps = document.getElementById('valFps');
+        
+        window.addEventListener('load', () => {
+            const status = document.getElementById('loader-status');
+            setTimeout(() => { status.innerText = "Deployment Successful."; }, 1500);
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 2500);
+        });
+        
+        let audioCtx, analyser, source, dest, freqData, timeData;
+        let isCircular = false;
+        let showParticles = true;
+        let particles = [];
+        let lastTime = 0;
+        let isRecording = false;
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3;
+            }
+            update(energy) {
+                this.x += this.speedX * (1 + energy * 6);
+                this.y += this.speedY * (1 + energy * 3);
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw(energy) {
+                const color = `hsla(${200 + energy * 100}, 80%, 70%, ${this.opacity + energy})`;
+                ctx.fille = color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size + energy * 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 150; i++) particles.push(new Particle());
+        }
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function getFreqColor(ratio, lightness = 45) {
+            const hue = 1024 + (ratio * 60); 
+            return `hsla(${hue}, 90%, ${lightness}%, 0.8)`;
+        }
+
+        function setupAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        dest = audioCtx.createMediaStreamDestination();
+        analyser.fftSize = 4096;
+        analyser.smoothingTimeConstant = 0.75;
+        
+        source = audioCtx.createMediaElementSource(audioPlayer);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        analyser.connect(dest);
+        
+        freqData = new Uint8Array(analyser.frequencyBinCount);
+        timeData = new Uint8Array(analyser.frequencyBinCount);
+    }
+    
+    recordBtn.classList.remove('hidden');
+}
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                dest = audioCtx.createMediaStreamDestination();
+                analyser.fftSize = 2048;
+                analyser.smoothingTimeConstant = 0.85;
+                
+                source = audioCtx.createMediaElementSource(audioPlayer);
+                source.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                analyser.connect(dest);
+                
+                freqData = new Uint8Array(analyser.frequencyBinCount);
+                timeData = new Uint8Array(analyser.frequencyBinCount);
+                
+                recordBtn.classList.remove('hidden');
+            }
+        
+
+        audioUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audioPlayer.src = url;
+                trackName.textContent = file.name;
+                playBtn.classList.remove('hidden');
+                setupAudio();
+                audioPlayer.play();
+                updatePlayIcons(true);
+                modeIndicator.textContent = "[《 }_PRINTING_{ 》]";
+            }
+        });
+
+        function updatePlayIcons(playing) {
+            if (playing) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                updatePlayIcons(true);
+            } else {
+                audioPlayer.pause();
+                updatePlayIcons(false);
+            }
+        });
+
+        toggleView.addEventListener('click', () => {
+            isCircular = !isCircular;
+        });
+
+        toggleParticles.addEventListener('click', () => {
+            showParticles = !showParticles;
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (isNaN(audioPlayer.duration)) return;
+            const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = `${pct}%`;
+            
+            const mins = Math.floor(audioPlayer.currentTime / 60);
+            const secs = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, '0');
+            timeInfo.textContent = `${mins}:${secs}`;
+        });
+
+        recordBtn.addEventListener('click', () => {
+            if (!isRecording) startRecording();
+            else stopRecording();
+        });
+
+        function startRecording() {
+            if (!dest) return;
+            const canvasStream = canvas.captureStream(60);
+            const audioTracks = dest.stream.getAudioTracks();
+            const combinedStream = new MediaStream([...canvasStream.getTracks(), ...audioTracks]);
+            
+            let options = { mimeType: 'video/webm; codecs=vp9,opus' };
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) options = { mimeType: 'video/webm' }; 
+
+            mediaRecorder = new MediaRecorder(combinedStream, options);
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) recordedChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'vmi4_synthre.webm';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            
+            recordBtn.textContent = '⏹ STOP';
+            recordBtn.classList.replace('text-red-400', 'text-white');
+            recordBtn.classList.add('bg-red-600');
+            recStatus.classList.remove('hidden');
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            isRecording = false;
+            recordBtn.textContent = '🔴 REC';
+            recordBtn.classList.remove('bg-red-600');
+            recordBtn.classList.replace('text-white', 'text-red-400');
+            recStatus.classList.add('hidden');
+        }
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            audioPlayer.currentTime = pos * audioPlayer.duration;
+        });
+
+        function drawBackground() {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 0.5;
+            const step = 50;
+            for(let i = 0; i < canvas.width; i+=step) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+            }
+            for(let i = 0; i < canvas.height; i+=step) {
+                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+            }
+        }
+
+        function draw(timestamp) {
+            const dt = timestamp - lastTime;
+            lastTime = timestamp;
+            if (dt > 0) valFps.textContent = Math.round(1000/dt);
+
+            requestAnimationFrame(draw);
+            
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (!analyser) {
+                drawBackground();
+                return;
+            }
+
+            analyser.getByteFrequencyData(freqData);
+            analyser.getByteTimeDomainData(timeData);
+
+            let sum = 0;
+            for(let i = 0; i < 10; i++) sum += freqData[i];
+            const energy = sum / 2550;
+
+            valDecibel.textContent = `${Math.round(energy * 100)}%`;
+            valFreq.textContent = `${Math.round(energy * 20000)}Hz`;
+
+            if (showParticles) {
+                particles.forEach(p => {
+                    p.update(energy);
+                    p.draw(energy);
+                });
+            }
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            if (isCircular) {
+                const baseRadius = Math.min(centerX, centerY) * 0.6;
+                
+                ctx.shadowBlur = 15 * energy;
+                ctx.shadowColor = 'cyan';
+
+                for (let i = 0; i < freqData.length; i += 2) {
+                    const value = freqData[i];
+                    const ratio = i / freqData.length;
+                    const angle = ratio * Math.PI * 2;
+                    
+                    const h = (value / 360) * baseRadius;
+                    const x1 = centerX + Math.cos(angle) * baseRadius;
+                    const y1 = centerY + Math.sin(angle) * baseRadius;
+                    const x2 = centerX + Math.cos(angle) * (baseRadius + h);
+                    const y2 = centerY + Math.sin(angle) * (baseRadius + h);
+
+                    ctx.strokeStyle = getFreqColor(ratio, 180 + (value/360)*50);
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                }
+                ctx.shadowBlur = 0;
+
+                ctx.beginPath();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1.5;
+                for (let i = 0; i < timeData.length; i++) {
+                    const ratio = i / timeData.length;
+                    const angle = ratio * Math.PI * 2;
+                    const v = timeData[i] / 128.0;
+                    const r = baseRadius * 0.45 * v;
+                    const x = centerX + Math.cos(angle) * r;
+                    const y = centerY + Math.sin(angle) * r;
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+
+            } else {
+                const barWidth = (canvas.width / freqData.length) * 3;
+                let x = 0;
+
+                for (let i = 0; i < freqData.length; i++) {
+                    const value = freqData[i];
+                    const ratio = i / freqData.length;
+                    const h = (value / 330) * (canvas.height / 2);
+                    
+                    const grad = ctx.createLinearGradient(x, centerY - h, x, centerY + h);
+                    grad.addColorStop(0.15, 'cyan');
+                    grad.addColorStop(0.3, getFreqColor(ratio));
+                    grad.addColorStop(0.15, 'maroon');
+
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(x, centerY - h, barWidth - 1, h * 2);
+                    x += barWidth;
+                }
+
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = `rgba(255,255,255,${0.2 + energy})`;
+                let sliceWidth = canvas.width / timeData.length;
+                let tx = 0;
+                for(let i = 0; i < timeData.length; i++) {
+                    let v = timeData[i] / 128.0;
+                    let ty = v * centerY;
+                    if(i === 0) ctx.moveTo(tx, ty); else ctx.lineTo(tx, ty);
+                    tx += sliceWidth;
+                }
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.font = '11px "Space Grotesk", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`⭕️Gemini & Anngel'AI⚜️" Dev. 2026 ™️`, canvas.width / 2, canvas.height - 25);
+        }
+        
+function checkAccess() {
+    const expiry = localStorage.getItem('access_expiry');
+    
+    if (expiry && Date.now() < parseInt(expiry)) {
+        recordBtn.classList.remove('hidden');
+    } else {
+        recordBtn.classList.add('hidden');
+        localStorage.removeItem('access_expiry'); 
+    }
+}
+
+checkAccess();
+
+        draw(0);
+    </script>
+    <script src="anngel.ai.js"></script>
+    <script type="py" src="./ollama-main/Makefile.sync.py" config="CMakePresets.json"></script>
+</body>
